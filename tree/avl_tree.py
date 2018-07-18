@@ -227,18 +227,58 @@ class AVL_Tree():
                 return []
             return ['[]']
 
-        inlist = []
+        output = []
         l = self.node.left.inorder_traverse(ignore_empty=ignore_empty)
         for i in l:
-            inlist.append(i)
+            output.append(i)
 
-        inlist.append("%s" % self.node.value)
+        output.append("%s" % self.node.value)
 
         l = self.node.right.inorder_traverse(ignore_empty=ignore_empty)
         for i in l:
-            inlist.append(i)
+            output.append(i)
 
-        return inlist
+        return output
+
+    def preorder_traverse(self, ignore_empty=True):
+        if self.node == None:
+            if ignore_empty:
+                return []
+            return ['[]']
+
+        output = []
+
+        output.append(str(self.node.value))
+
+        l = self.node.left.preorder_traverse()
+        for i in l:
+            output.append(str(i))
+
+        l = self.node.right.preorder_traverse()
+        for i in l:
+            output.append(str(i))
+
+        return output
+
+    def postorder_traverse(self, ignore_empty=True):
+        if self.node == None:
+            if ignore_empty:
+                return []
+            return ['[]']
+
+        output = []
+
+        l = self.node.left.postorder_traverse()
+        for i in l:
+            output.append(str(i))
+
+        l = self.node.right.postorder_traverse()
+        for i in l:
+            output.append(str(i))
+
+        output.append(str(self.node.value))
+
+        return output
 
     def display(self):
         print("\nDisplay tree:")
@@ -266,7 +306,7 @@ class AVL_Tree():
                     padding_str = "  "*space_count
                     print("%s%s%s"%(padding_str, 
                                     bfs_list[j],
-                                     padding_str), end='')
+                                    padding_str), end='')
                     print("  ", end='') 
             node_counter = j + 1
             print("")
@@ -278,32 +318,29 @@ if __name__ == '__main__':
 
     avl_tree = AVL_Tree()
 
-    print("Input value list: %s" % input_list)
+    print("\nInput value list: %s" % input_list)
     for input_value in input_list:
         avl_tree.insert(input_value)
 
-    print("")
-    print("Inorder traverse:\n%s" % avl_tree.inorder_traverse()) 
-
-    print("")
-    print("Level order traverse:\n%s" % avl_tree.level_order_traverse())
-
-    print("")
     avl_tree.display()
- 
-    print("")
-    print("Delete numbers 3")
+
+    print("\nInorder traverse:\n%s" % avl_tree.inorder_traverse()) 
+    print("\nPreorder traverse:\n%s" % avl_tree.preorder_traverse()) 
+    print("\nPostorder traverse:\n%s" % avl_tree.postorder_traverse()) 
+    print("\nLevel order traverse:\n%s" % avl_tree.level_order_traverse())
+
+    print("\nDelete numbers 3")
     avl_tree.delete(3)
     avl_tree.display()
 
-    print("Delete numbers 4")
+    print("\nDelete numbers 4")
     avl_tree.delete(4)
     avl_tree.display()
 
-    print("Delete numbers 5")
+    print("\nDelete numbers 5")
     avl_tree.delete(5)
     avl_tree.display()
 
-    print("Delete numbers 0")
+    print("\nDelete numbers 0")
     avl_tree.delete(0)
     avl_tree.display()
