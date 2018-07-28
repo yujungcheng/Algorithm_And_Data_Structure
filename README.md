@@ -11,3 +11,5 @@
 * http://interactivepython.org/UhZmZ/courselib/static/pythonds/index.html#
 * https://www.codesdope.com/blog/article/sorting-a-list-using-insertion-sort-in-python/
 * https://visualgo.net/en
+* https://www.tutorialspoint.com/data_structures_algorithms/index.htm
+* https://cis.stvincent.edu/html/tutorials/swd/btree/btree.html
