@@ -5,9 +5,11 @@ class Node():
     def __init__(self, parent=None, position=None):
         self.parent = parent    # parent node
         self.position = position    # (x, y)
+        #self.position = (position[1], position[0])
         self.cost = 0
         self.distance_from_start = 0
         self.distance_to_end = 0
+        self.move = 0   # move counter
 
     def __str__(self):
         if self.position == None:
@@ -42,11 +44,10 @@ class Node():
                     if x_offset == 0 and y_offset == 0:
                         continue
                     offsets.append((x_offset, y_offset))
-        #print(offsets)
         for offset in offsets:
             x = self.position[0] + offset[0]
             y = self.position[1] + offset[1]
-            if x < 0 or y < 0:
+            if x < 0 or y < 0:  # skip minus position
                 continue
             neighbors.append((x,y))
         return neighbors[1:]

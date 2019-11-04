@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
+import time
+
 
 def node_distance_from_start(current_node):
-    return current_node.distance_from_start + 1
+    return current_node.distance_from_start + 10
 
 def node_distance_to_end(current_node, end_node):
     current_x = current_node.position[0]
@@ -12,6 +14,21 @@ def node_distance_to_end(current_node, end_node):
     distance_y = (current_y - end_y) ** 2
     return distance_x + distance_y
 
+def get_lowerest_cost_node(node_list, lowest_cost=True):
+    lowerest_node = node_list[0]
+    lowerest_cost = node_list[0].cost
+    lowerest_index = 0
+    for index, node in enumerate(node_list):
+        if lowest_cost:
+            if node.cost < lowerest_node.cost:
+                lowerest_node = node
+                lowerest_index = index
+        else:
+            if node.move < lowerest_node.move:
+                lowerest_node = node
+                lowerest_index = index
+    return lowerest_node, lowerest_index
+
 def reconstruct_path(node):
     path = []
     current_node = node
@@ -20,7 +37,7 @@ def reconstruct_path(node):
         current_node = current_node.parent
     return path[::-1]
 
-def print_maze_path(maze, start, end, path=None, space=0, black=1):
+def print_maze_path(maze, start, end, path=None, colour=False, space=0, block=1):
     if path == None:
         print("[ Maze ]")
     else:
@@ -38,12 +55,18 @@ def print_maze_path(maze, start, end, path=None, space=0, black=1):
                 elif (i, j) == end:
                     print("E ", end = '')
                 else:
-                    print("M ", end = '')
+                    if colour:
+                        print('\x1b[0;32;40m'+'M'+'\x1b[0m ', end = '')
+                    else:
+                        print("M ", end = '')
             else:
-                if column == 0:
+                if column == space:
                     print('. ', end = '')
-                elif column == 1:
-                    print('# ', end = '')
+                elif column == block:
+                    if colour:
+                        print('\x1b[0;31;40m'+'#'+'\x1b[0m ', end = '')
+                    else:
+                        print('# ', end = '')
             j += 1
         print('')
         j = 0
@@ -61,10 +84,24 @@ def print_path(path, line=False):
             counter += 1
     print('')
 
-def find_lowerest_cost_node(node_list):
-    lowerest_node = node_list[0]
-    lowerest_cost = node_list[0].cost
-    for node in node_list:
-        if node.cost < lowerest_cost:
-            lowerest_node = node
-    return lowerest_node
+def print_discovery_map(map, colour=False, delay=0.1):
+    for i in map:
+        for j in i:
+            if j == 0:
+                print(". ", end = '')
+            elif j == 1:
+                if colour:
+                    print('\x1b[0;31;40m'+'#'+'\x1b[0m ', end = '')
+                else:
+                    print("# ", end = '')
+            elif j == 2:
+                if colour:
+                    print('\x1b[0;32;40m'+'o'+'\x1b[0m ', end = '')
+                else:
+                    print("o ", end = '')
+        print('')
+    print('')
+    time.sleep(delay)
+
+def heuristic():
+    return
