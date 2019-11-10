@@ -285,7 +285,6 @@ maze12 = [
 ]
 
 
-
 mazes = {
     'maze0': maze0,
     'maze1': maze1,

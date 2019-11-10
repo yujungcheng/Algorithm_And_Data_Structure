@@ -4,11 +4,11 @@
 class Node():
     def __init__(self, parent=None, position=None):
         self.parent = parent    # parent node
-        self.position = position    # (x, y)
-        #self.position = (position[1], position[0])
-        self.cost = 0
+        self.position = position
+        #self.position = (position[1], position[0])  # y, x
         self.distance_from_start = 0
         self.distance_to_end = 0
+        self.cost = 0
         self.move = 0   # move counter
 
     def __str__(self):
@@ -20,6 +20,7 @@ class Node():
     def __eq__(self, node):
         return self.position == node.position
 
+    # unused
     def is_position(self, x, y):
         if self.position[0] == x and self.position[1] == y:
             return True
@@ -39,15 +40,24 @@ class Node():
         elif order == 4:
             offsets = [(0,-1),(0,1),(-1,0),(1,0),(-1,-1),(-1,1),(1,-1),(1,1)]
         else:
-            for x_offset in [-1, 1, 0]:
-                for y_offset in [-1, 1, 0]:
-                    if x_offset == 0 and y_offset == 0:
-                        continue
-                    offsets.append((x_offset, y_offset))
+            offsets = [(1,1),(1,0),(0,1),(1,-1),(-1,1),(0,-1),(-1,0),(-1,-1)]
+
+        check_parent = True
+        if self.parent is None:
+            check_parent = False
+        else:
+            if self.parent.position is None:
+                check_parent = False
+
         for offset in offsets:
-            x = self.position[0] + offset[0]
-            y = self.position[1] + offset[1]
+            if offset[0] == 0 and offset[1] == 0:
+                continue
+            y = self.position[0] + offset[0]
+            x = self.position[1] + offset[1]
+            if check_parent:
+                if self.parent.position[0] == y and self.parent.position[1] == x:
+                    continue
             if x < 0 or y < 0:  # skip minus position
                 continue
-            neighbors.append((x,y))
-        return neighbors[1:]
+            neighbors.append((y,x))
+        return neighbors

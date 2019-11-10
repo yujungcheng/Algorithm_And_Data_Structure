@@ -16,7 +16,11 @@ PRINT_STEP = False
 PRINT_MOVE = True
 PRINT_COLOUR = True
 
-NEIGHBOR_ORDER_MODE = 0
+# neighbor
+NEIGHBOR_ORDER_MODE = None
+
+# set to None, 'cost' or 'move'
+SET_LOWEST_TYPE = None
 
 
 def main():
@@ -28,62 +32,71 @@ def main():
     maze_name = sys.argv[1]
     maze = mazes[maze_name]
 
-    max_x = len(maze) - 1
-    max_y = len(maze[max_x]) - 1
+    max_y = len(maze) - 1
+    max_x = len(maze[max_y]) - 1
 
     start_position = (0, 0)
-    end_position = (max_x, max_y)
+    end_position = (max_y, max_x)
 
-    # dump maze for discovery map (opened node map)
-    open_map = copy.deepcopy(maze)
-    # opened node list
-    open_nodes = []
-    # closed node list
-    closed_nodes = []
+    open_map = copy.deepcopy(maze) # dump maze for discovery map (opened node map)
+    discovery_map = copy.deepcopy(maze)
+    open_nodes = []  # store nodes to be opened
+    closed_nodes = []  # store nodes that have been opened
 
     start_node = Node(parent=None, position=start_position)
     end_node = Node(None, position=end_position)
 
     open_nodes.append(start_node)
 
-    lowest_cost = True
-
+    # lowest type for pickup next node, 'cost' or 'move'.
+    # use cost in beginning.
+    lowest = 'cost'
+    # move count for node
     move = 0
+
     while len(open_nodes) > 0:
 
-        current_node, current_index = get_lowerest_cost_node(open_nodes, lowest_cost=lowest_cost)
+        if SET_LOWEST_TYPE != None:
+            lowest = SET_LOWEST_TYPE
+
+        # get node from open node list
+        current_node, current_index = get_lowerest_cost_node(open_nodes, lowest=lowest)
         open_nodes.pop(current_index)
         closed_nodes.append(current_node)
         current_node.move = move
 
         # update discovery map by current node
         if PRINT_MOVE:
-            x = current_node.position[0]
-            y = current_node.position[1]
-            if maze[x][y] != BLOCK:
-                open_map[x][y] = 2
+            y = current_node.position[0]
+            x = current_node.position[1]
+            if maze[y][x] != BLOCK:
+                open_map[y][x] = 2
             print("Move %s" % move)
             print_discovery_map(open_map, colour=PRINT_COLOUR)
+
         move += 1
 
         # reached end node
         if current_node == end_node:
             break
 
-        # check neighbor nodes of current node
-        temp_neighbors = []
-        neighbor_positions = current_node.get_neighbor_positions(order=NEIGHBOR_ORDER_MODE)
+         # set to 'move' here,
+         # will set to 'cost' when neighbors met condition,
+        lowest = 'move'
 
+        # check neighbor nodes of current node
+        neighbor_positions = current_node.get_neighbor_positions(order=NEIGHBOR_ORDER_MODE)
         for neighbor_position in neighbor_positions:
 
-            if neighbor_position[1] > max_x or neighbor_position[0] > max_y:    # hit boundary
+            if neighbor_position[0] > max_x or neighbor_position[1] > max_y:    # hit boundary
                 continue
-            if maze[neighbor_position[0]][neighbor_position[1]] != SPACE:   # hit barrier
+            if discovery_map[neighbor_position[0]][neighbor_position[1]] != SPACE:   # hit barrier
                 continue
 
             neighbor_node = Node(parent=current_node, position=neighbor_position)
+            neighbor_node.move = move
 
-            # skip closed node
+            # if neighbor node is in closed node, skip it
             neighbor_in_closed_nodes = False
             for closed_node in closed_nodes:
                 if neighbor_node == closed_node:
@@ -94,7 +107,7 @@ def main():
 
             # calculate cost
             neighbor_node.distance_from_start = node_distance_from_start(current_node)
-            neighbor_node.distance_to_end = node_distance_to_end(current_node, end_node)
+            neighbor_node.distance_to_end = node_distance_to_end(neighbor_node, end_node)
             neighbor_node.cost = neighbor_node.distance_from_start + neighbor_node.distance_to_end
 
             # skip if neighbor node is in open nodes and has larger cost
@@ -106,14 +119,14 @@ def main():
             if neighbor_in_open_nodes_larger_cost:
                 continue
 
+            # append neighbor to open nodes
             open_nodes.append(neighbor_node)
-            temp_neighbors.append(neighbor_node)
 
-        lowest_cost = False
-        for index, neighbor in enumerate(temp_neighbors):
-            if neighbor.distance_to_end < current_node.distance_to_end:
-                lowest_cost_neighbor = neighbor
-                lowest_cost = True
+            discovery_map[neighbor_position[0]][neighbor_position[1]] = 2
+
+            # if find a neighbor is closer to end node, keep use 'cost'
+            if neighbor_node.distance_to_end < current_node.distance_to_end:
+                lowest = 'cost'
 
     path = reconstruct_path(current_node)
 
