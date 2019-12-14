@@ -7,16 +7,14 @@ from node import Node
 from common import *
 
 
-SPACE = 0
-BLOCK = 1
-
 PRINT_MAZE = False
 PRINT_PATH = True
 PRINT_STEP = False
 PRINT_MOVE = True
 PRINT_COLOUR = True
 
-# neighbor
+
+# look neighbor order
 NEIGHBOR_ORDER_MODE = None
 
 # set to None, 'cost' or 'move'
@@ -70,7 +68,7 @@ def main():
             y = current_node.position[0]
             x = current_node.position[1]
             if maze[y][x] != BLOCK:
-                open_map[y][x] = 2
+                open_map[y][x] = OPEN
             print("Move %s" % move)
             print_discovery_map(open_map, colour=PRINT_COLOUR)
 
@@ -122,13 +120,13 @@ def main():
             # append neighbor to open nodes
             open_nodes.append(neighbor_node)
 
-            discovery_map[neighbor_position[0]][neighbor_position[1]] = 2
+            discovery_map[neighbor_position[0]][neighbor_position[1]] = OPEN
 
             # if find a neighbor is closer to end node, keep use 'cost'
             if neighbor_node.distance_to_end < current_node.distance_to_end:
                 lowest = 'cost'
 
-    path = reconstruct_path(current_node)
+    path = reconstruct_path(current_node, discovery_map)
 
     if PRINT_MAZE:
         print_maze_path(maze, start_position, end_position, color=PRINT_COLOUR)

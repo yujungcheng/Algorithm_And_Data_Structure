@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 import time
 
+SPACE = 0
+BLOCK = 1
+OPEN = 2
+
 
 def node_distance_from_start(current_node):
     return current_node.distance_from_start + 1
@@ -28,12 +32,13 @@ def get_lowerest_cost_node(node_list, lowest='cost'):
                 lowerest_index = index
     return lowerest_node, lowerest_index
 
-def reconstruct_path(node):
+def reconstruct_path(node, discovery_map):
     path = []
     current_node = node
     while current_node is not None:
         path.append(current_node.position)
         current_node = current_node.parent
+
     return path[::-1]
 
 def print_maze_path(maze, start, end, path=None, colour=False, space=0, block=1):
@@ -75,14 +80,14 @@ def print_maze_path(maze, start, end, path=None, colour=False, space=0, block=1)
 def print_discovery_map(map, colour=False, delay=0.1):
     for i in map:
         for j in i:
-            if j == 0:
+            if j == SPACE:
                 print(". ", end = '')
-            elif j == 1:
+            elif j == BLOCK:
                 if colour:
                     print('\x1b[0;31;40m'+'#'+'\x1b[0m ', end = '')
                 else:
                     print("# ", end = '')
-            elif j == 2:
+            elif j == OPEN:
                 if colour:
                     print('\x1b[0;32;40m'+'o'+'\x1b[0m ', end = '')
                 else:
