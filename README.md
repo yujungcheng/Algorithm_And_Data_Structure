@@ -1,7 +1,6 @@
-# algorithm_and_data_structure
+## Algorithm and Data structure
 
-#Reference:
-
+## Reference:
 * https://en.wikipedia.org/wiki/Tree_traversal
 * https://www.geeksforgeeks.org/tree-traversals-inorder-preorder-and-postorder/
 * https://www.cs.usfca.edu/~galles/visualization/Algorithms.html
