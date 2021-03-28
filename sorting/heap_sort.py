@@ -3,6 +3,7 @@
 enable_debug = True
 count_debug = 0
 
+
 def debug(msg):
     global enable_debug
     global count_debug
@@ -18,7 +19,7 @@ def sift_down(list_data, parent_index, list_length, descending=True):
         left_child_index = 2 * parent_index + 1
         right_child_index = left_child_index + 1
         parent = parent_index
- 
+
         if descending:
             if left_child_index < list_length:
                 if list_data[left_child_index] > list_data[parent]:
@@ -51,13 +52,15 @@ def heapify(list_data, descending=True):
         debug(list_data)
 
 def heap_sort(list_data, descending=False):
-    # transform to heap list 
+    # transform to heap list
     if descending:
+        print("- transofrm to heap list (Descending)")
         heapify(list_data, descending=False)
     else:
+        print("- transofrm to heap list (Ascending)")
         heapify(list_data)
 
-    print("- heapify : %s" %list_data)
+    print("- heapify : %s" % list_data)
 
     last_index = len(list_data) - 1
     for i in range(last_index, 0, -1):
@@ -72,17 +75,20 @@ def heap_sort(list_data, descending=False):
         debug(list_data)
 
 
+# ------------------------------------------------------------------------------
+
 input_data = [16, 2, 13, 5, 11, 8, 9, 14, 17, 4, 1, 12, 18, 7, 15, 10, 3, 6]
 
-print("Ascending sort") 
+print("[ Ascending sort ]\n"+"-"*80)
 list_data = input_data[:]
 print("- input   : %s" % list_data)
-heap_sort(list_data)
+heap_sort(list_data, descending=False)
 print("- output  : %s" % list_data)
 
-print("Descending sort")
+print()
+
+print("[ Descending sort ]\n"+"-"*80)
 list_data = input_data[:]
 print("- input   : %s" % list_data)
 heap_sort(list_data, descending=True)
 print("- output  : %s" % list_data)
-

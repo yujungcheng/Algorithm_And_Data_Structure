@@ -15,11 +15,11 @@ def swap(list_data, x, y):
 
 def insertion_sort(list_data, descending=False):
     list_length = len(list_data)
-    
+
     for i in range(1, list_length):
         temp_value = list_data[i]
         value_index = i
-        
+
         while value_index > 0:
             if descending:
                 if list_data[value_index-1] < list_data[value_index]:
@@ -31,12 +31,12 @@ def insertion_sort(list_data, descending=False):
                     swap(list_data, value_index, value_index-1)
                 else:
                     break
-            value_index -= 1 
+            value_index -= 1
             debug(list_data)
 
 def insertion_sort_1(list_data, descending=False):
     list_length = len(list_data)
-    
+
     for i in range( 1, list_length ):
         temp_value = list_data[i]
         value_index = i
@@ -51,15 +51,19 @@ def insertion_sort_1(list_data, descending=False):
         list_data[value_index] = temp_value
 
 
+# ------------------------------------------------------------------------------
+
 input_data = [16, 2, 13, 5, 11, 8, 9, 14, 17, 4, 1, 12, 18, 7, 15, 10, 3, 6]
 
-print("[Ascending]")
+print("[ Ascending sort ]\n"+"-"*80)
 list_data = input_data[:]
 print("- input   : %s" % list_data)
 insertion_sort(list_data)
 print("- output  : %s" % list_data)
 
-print("[Descending]")
+print()
+
+print("[ Descending sort ]\n"+"-"*80)
 list_data = input_data[:]
 print("- input   : %s" % list_data)
 insertion_sort(list_data, descending=True)

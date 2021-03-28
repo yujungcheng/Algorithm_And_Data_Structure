@@ -9,7 +9,7 @@ SHARED_BASE = 5
 def main():
 
     print("[Client]")
-    private_key = random.randrange(100)
+    private_key = random.randrange(1000)
     public_key = (SHARED_BASE**private_key) % SHARED_MODULUS
 
     print("- private key: %s" % private_key)
@@ -22,11 +22,14 @@ def main():
         sock.connect(server_address)
         print("- connected")
 
+        # send client's public key
         sock.sendall(str(public_key).encode('utf-8'))
 
+        # receive server's public key
         data = sock.recv(32)
-        print("- received data: %s" % int(data))
+        print("- received data: %s (server's public key)" % int(data))
         if data.isdigit():
+            # calculate shared private key
             server_public_key = int(data)
             shared_secret_key = (server_public_key**private_key) % SHARED_MODULUS
             print("- shared private key: %s" % shared_secret_key)

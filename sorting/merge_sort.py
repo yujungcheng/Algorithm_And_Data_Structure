@@ -29,10 +29,10 @@ def merge_lists(left_list, right_list, descending=False):
             else:
                 merged_list.append(right_list[j])
                 j += 1
-    
+
     merged_list += left_list[i:]
     merged_list += right_list[j:]
-    return merged_list 
+    return merged_list
 
 def merge_sort(list_data, descending=False):
     list_length = len(list_data)
@@ -55,14 +55,18 @@ def merge_sort(list_data, descending=False):
     return merge_lists(left_list, right_list, descending=descending)
 
 
+# ------------------------------------------------------------------------------
+
 input_data = [16, 2, 13, 5, 11, 8, 9, 14, 17, 4, 1, 12, 18, 7, 15, 10, 3, 6]
 
-print("Ascending sort:")
+print("[ Ascending sort ]\n"+"-"*80)
 print("- input   : %s" % input_data)
 output = merge_sort(input_data)
 print("- output  : %s" % output)
 
-print("Descending sort:")
+print()
+
+print("[ Descending sort ]\n"+"-"*80)
 print("- input   : %s" % input_data)
 output = merge_sort(input_data, descending=True)
 print("- output  : %s" % output)

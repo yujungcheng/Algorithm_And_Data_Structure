@@ -38,17 +38,20 @@ def bubble_sort_1(list_data, descending=False):
             debug(list_data)
 
 
+# ------------------------------------------------------------------------------
+
 input_data = [16, 2, 13, 5, 11, 8, 9, 14, 17, 4, 1, 12, 18, 7, 15, 10, 3, 6]
 
-print("Ascending sort:")
+print("[ Ascending sort ]\n"+"-"*80)
 list_data = input_data[:]
 print("- input   : %s" % list_data)
 bubble_sort(list_data)
 print("- output  : %s" % list_data)
 
-print("Descending sort:")
+print()
+
+print("[ Descending sort ]\n"+"-"*80)
 list_data = input_data[:]
 print("- input   : %s" % list_data)
 bubble_sort(list_data, descending=True)
 print("- output  : %s" % list_data)
-

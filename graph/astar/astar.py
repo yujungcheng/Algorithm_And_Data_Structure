@@ -24,7 +24,11 @@ SET_LOWEST_TYPE = None
 def main():
 
     if len(sys.argv) < 2:
-        print("Missing maze name.")
+        print("Missing a maze name.")
+        print("  Usage: ./astar.py <maze name>")
+        print("Maze name list:")
+        for maze_name in mazes:
+            print("  %s" % maze_name)
         exit(1)
 
     maze_name = sys.argv[1]
