@@ -26,4 +26,4 @@ jobs:
       - run: tree/avl_tree.py
       - run: tree/b_tree.py
       # graph
-      - run: graph/astar/astar.py
+      - run: graph/astar/astar.py maze{0..12}
