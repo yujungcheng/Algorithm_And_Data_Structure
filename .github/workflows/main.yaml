@@ -6,7 +6,7 @@ on:
   schedule:
     - cron: "0 1 * * *"  # run at every 1AM
 jobs:
-  test-sorting:
+  tests:
     runs-on: ubuntu-latest
     steps:
       - name: check out repo code
@@ -15,6 +15,15 @@ jobs:
           fetch-depth: 1
       - run: |
           ls ${{ github.workspace }}
-      - run: sorting/bubble_sort.py
-
-  
+      # sorting
+      - run: sorting/bubble_sort.py 
+      - run: sorting/heap_sort.py 
+      - run: sorting/insertion_sort.py 
+      - run: sorting/merge_sort.py 
+      - run: sorting/quick_sort.py 
+      - run: sorting/selection_sort.py 
+      # tree
+      - run: tree/avl_tree.py
+      - run: tree/b_tree.py
+      # graph
+      - run: graph/astar/astar.py
